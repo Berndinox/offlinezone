@@ -6,10 +6,12 @@ var iotajs = new IOTA({
     'provider': 'https://iota.offline.zone:443'
 });
 
-
+app.use(express.static('public'));
 app.set('view engine', 'ejs')
+
+
 app.get('/', function (req, res) {
-    res.send("Hallo");
+    res.render('index');
 })
 
 app.listen(80, () => console.log('Example app listening on port 80!'));
