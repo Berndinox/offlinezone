@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Offline.Zone - IOTA</title>
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Barlow">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <style media="screen" type="text/css">
       #space, .stars {
@@ -71,16 +71,16 @@
       ------------------------------------- */
       
       body {
-              background: #000;
-              margin: 0;
-              padding: 0;
+        background: #000;
+        margin: 0;
+        padding: 0;
+        font-family: Barlow;
       }
       div { display: inline-block; }
       h1  {
         position: absolute;
-        font-family: 'Tangerine', serif;
         z-index: 1;
-        top: 30%;
+        top: 20%;
         left: 45%;
         margin: -1.5em -2.5em;
         #width: 5em;
@@ -93,15 +93,23 @@
       h1:first-line {
         font-size: 200%;
       }
+      a {
+        color: white;
+      }
     </style>
   </head>
   <body>
     <h1>
       <p><img src="https://iotasupport.com/images/headerlogo.png"></p>
-      <p> Network-Index: <span id="latestMilestoneIndex"></span></p>
-      <p>Fullnode-Index: <span id="latestSolidSubtangleMilestoneIndex"></span></p>
-      <p>Free Memory: <span id="jreFreeMemory"></span></p>
+      <p>NodeStatus: <span id="sync"></span></p>
+      <p style="font-size:10pt;"> Network-Index: <span id="latestMilestoneIndex"></span></p>
+      <p style="font-size:10pt;">Fullnode-Index: <span id="latestSolidSubtangleMilestoneIndex"></span></p>
+      <p style="font-size:10pt;">Neighbors:&nbsp;&nbsp;&nbsp;&nbsp;<span id="neighbors"></span></p>
+      <p style="font-size:10pt;">Free Memory: <span id="jreFreeMemory"></span></p>
+      <br />
+      <p style="font-size:8pt;">Node hosted by <a href="https://berndklaus.at" target="_blank">berndklaus.at</a></p>
     </h1>
+    
     <div id="space">
       <div class="stars"></div>
       <div class="stars"></div>
@@ -117,6 +125,10 @@
               $('#latestMilestoneIndex').text(data.latestMilestoneIndex);
               $('#latestSolidSubtangleMilestoneIndex').text(data.latestSolidSubtangleMilestoneIndex);
               $('#jreFreeMemory').text(data.jreFreeMemory);
+              $('#neighbors').text(data.neighbors);
+              var sync;
+              if (data.latestMilestoneIndex == data.latestSolidSubtangleMilestoneIndex) { sync = "Synced" } else { sync = "Unsynced"};
+              $('#sync').text(sync);
           });
       });
     </script>
