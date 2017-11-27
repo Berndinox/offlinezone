@@ -1,7 +1,9 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
-var IOTA = require('iota.lib.js');
+const IOTA = require('iota.lib.js');
 var iotajs = new IOTA({
     'provider': 'https://iota.offline.zone:443'
 });
@@ -14,4 +16,11 @@ app.get('/', function (req, res) {
     res.render('index');
 })
 
-app.listen(80, () => console.log('Example app listening on port 80!'));
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
+http.listen(80, function(){
+  console.log('listening on *:80');
+});
+    
