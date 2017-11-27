@@ -2,17 +2,123 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Test</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <title>Offline.Zone - IOTA</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style media="screen" type="text/css">
+      #space, .stars {
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+      
+      .stars {
+        background-image: 
+          radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+          radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+          radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+          radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+          radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+          radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+        background-repeat: repeat;
+        background-size: 200px 200px;
+        animation: zoom 5s infinite;
+        opacity: 0;
+      }
+      
+      .stars:nth-child(1) {
+        background-position: 50% 50%;
+        animation-delay: 0s;
+      }
+      .stars:nth-child(2) {
+        background-position: 20% 60%;
+        animation-delay: 1s;
+      }
+      .stars:nth-child(3) {
+        background-position: -20% -30%;
+        animation-delay: 2s;
+      }
+      .stars:nth-child(4) {
+        background-position: 40% -80%;
+        animation-delay: 3s;
+      }
+      .stars:nth-child(5) {
+        background-position: -20% 30%;
+        animation-delay: 4s;
+      }
+      
+      @keyframes zoom {
+        0% {
+          opacity: 0;
+          transform: scale(0.5);
+          animation-timing-function: ease-in;
+        } 
+        85% {
+          opacity: 1;
+          transform: scale(2.8);
+          animation-timing-function: linear;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(3.5);
+        }
+      }
+      
+      /* Demo syles 
+      ------------------------------------- */
+      
+      body {
+              background: #000;
+              margin: 0;
+              padding: 0;
+      }
+      div { display: inline-block; }
+      h1  {
+        position: absolute;
+        font-family: 'Tangerine', serif;
+        z-index: 1;
+        top: 30%;
+        left: 45%;
+        margin: -1.5em -2.5em;
+        #width: 5em;
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+        display:inline-block;
+      }
+      
+      h1:first-line {
+        font-size: 200%;
+      }
+    </style>
   </head>
   <body>
-    <div class="container">
-        <p>Hallo!!!</p>
+    <h1>
+      <p><img src="https://iotasupport.com/images/headerlogo.png"></p>
+      <p> Network-Index: <span id="latestMilestoneIndex"></span></p>
+      <p>Fullnode-Index: <span id="latestSolidSubtangleMilestoneIndex"></span></p>
+      <p>Free Memory: <span id="jreFreeMemory"></span></p>
+    </h1>
+    <div id="space">
+      <div class="stars"></div>
+      <div class="stars"></div>
+      <div class="stars"></div>
+      <div class="stars"></div>
+      <div class="stars"></div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io();
+      jQuery(function($){
+          var socket = io.connect('https://offline.zone:443');
+          socket.on('nodeInfo', function(data){
+              $('#latestMilestoneIndex').text(data.latestMilestoneIndex);
+              $('#latestSolidSubtangleMilestoneIndex').text(data.latestSolidSubtangleMilestoneIndex);
+              $('#jreFreeMemory').text(data.jreFreeMemory);
+          });
+      });
     </script>
   </body>
 </html>
