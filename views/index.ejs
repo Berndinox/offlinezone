@@ -102,12 +102,13 @@
   </head>
   <body>
     <h1>
-      <p><img src="./headerlogo.png"></p>
+      <p><img src="headerlogo.png" width="200"></p>
+      <p style="border:3px; border-style:solid; border-color:#fff; padding: 1em; border-radius: 5px;">https://iota.offline.zone:443</p>
       <p>NodeStatus: <span id="sync"></span></p>
       <p style="font-size:10pt;"> Network-Index: <span id="latestMilestoneIndex"></span></p>
       <p style="font-size:10pt;">Fullnode-Index: <span id="latestSolidSubtangleMilestoneIndex"></span></p>
       <p style="font-size:10pt;">Neighbors:&nbsp;&nbsp;&nbsp;&nbsp;<span id="neighbors"></span></p>
-      <p style="font-size:10pt;">Free Memory: <span id="jreFreeMemory"></span></p>
+      <p style="font-size:10pt;">Tx to Request: <span id="transactionsToRequest"></span></p>
       <br />
       <p style="font-size:8pt;">Node hosted with&nbsp; <i class="fa fa-heart-o" aria-hidden="true"></i> &nbsp;by <a href="https://berndklaus.at" target="_blank">berndklaus.at</a></p>
     </h1>
@@ -124,12 +125,13 @@
       jQuery(function($){
           var socket = io.connect('https://offline.zone:443');
           socket.on('nodeInfo', function(data){
-              $('#latestMilestoneIndex').text(data.latestMilestoneIndex);
-              $('#latestSolidSubtangleMilestoneIndex').text(data.latestSolidSubtangleMilestoneIndex);
-              $('#jreFreeMemory').text(data.jreFreeMemory);
-              $('#neighbors').text(data.neighbors);
+              if (data.latestMilestoneIndex) { $('#latestMilestoneIndex').text(data.latestMilestoneIndex); } else { $('#latestMilestoneIndex').text("0"); }
+              if (data.latestSolidSubtangleMilestoneIndex) { $('#latestSolidSubtangleMilestoneIndex').text(data.latestSolidSubtangleMilestoneIndex); } else { $('#latestSolidSubtangleMilestoneIndex').text("0"); }
+              if (data.neighbors) { $('#neighbors').text(data.neighbors); } else { $('#neighbors').text("?"); }
+              if (data.transactionsToRequest) { $('#transactionsToRequest').text(data.transactionsToRequest); } else { $('#transactionsToRequest').text("0"); }
               var sync;
               if (data.latestMilestoneIndex == data.latestSolidSubtangleMilestoneIndex) { sync = "Synced" } else { sync = "Unsynced"};
+              if (data == "Error") { sync = "Offline" };
               $('#sync').text(sync);
           });
       });

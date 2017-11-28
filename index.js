@@ -9,7 +9,7 @@ var iotajs = new IOTA({
 });
 
 app.set('view engine', 'ejs')
-
+app.use(express.static('views'))
 app.get('/', function (req, res) {
     res.render('index');
 })
@@ -19,6 +19,7 @@ function nodeInfo() {
     iotajs.api.getNodeInfo(function(error, success) {
     if (error) {
         console.error(error);
+        nodeInfo = "Error";
     } else {
         nodeInfo = success;
     }
